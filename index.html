@@ -679,10 +679,37 @@ function drawMatchupsTable(){
 }
 
 // ================= RECORDS =================
+const WEEK_RECORD_ORDER = [
+  'Highest Points For in one Regular Season Game',
+  'Largest Win Differential in one Regular Season Game',
+  'Highest Points For in one Postseason Game',
+  'Largest Win Differential in one Postseason Game',
+  'Lowest Points For in one Regular Season Game',
+  'Highest Points Against in one Regular Season Game',
+  'Lowest Points For in one Postseason Game',
+  'Highest Points Against in one Postseason Game',
+  'Highest QB Score',
+  'Highest RB Score',
+  'Highest WR Score',
+  'Highest TE Score',
+  'Highest K Score',
+  'Highest D/ST Score',
+  'Lowest QB Score',
+  'Lowest RB Score',
+  'Lowest WR Score',
+  'Lowest TE Score',
+];
 function renderRecords(){
   const el = document.getElementById('view-records');
   const grouped = {};
   DATA.records.forEach(r=>{ (grouped[r.type]=grouped[r.type]||[]).push(r); });
+  if(grouped['Week']){
+    grouped['Week'].sort((a,b)=>{
+      const ai = WEEK_RECORD_ORDER.indexOf(a.name.trim());
+      const bi = WEEK_RECORD_ORDER.indexOf(b.name.trim());
+      return (ai===-1?999:ai) - (bi===-1?999:bi);
+    });
+  }
   el.innerHTML = `
     <span class="eyebrow">The Books</span>
     <h1 class="page-title">League Records</h1>
